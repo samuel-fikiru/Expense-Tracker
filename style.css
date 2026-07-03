@@ -1,14 +1,13 @@
 body{
     margin: 0;
     font-family: 'Courier New', Courier, monospace;
-    #background-color: rgb(250, 249, 249);
+    background-color: rgb(250, 249, 249);
     padding-bottom:1000px;
 }
 p{
     margin: 0;
 }
 .body-container{
-   # background-color: lightseagreen;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,7 +15,6 @@ p{
 }
 .stat-container{
     margin-top: 0px;
-   # background-color: lightblue;
     width: 90%;
     max-width: 500px;
 }
@@ -24,7 +22,7 @@ p{
     font-size: 30px;
 }
 .income-expense-container{
-   #background-color: rgb(255, 255, 255);
+   background-color: rgb(255, 255, 255);
     margin-top: 30px;
     display: grid;
     grid-template-columns: 1fr 1px 1fr;

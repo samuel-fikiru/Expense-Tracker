@@ -1,13 +1,19 @@
-const expenseArray = [
-    {
+let transactionArray = []
+
+const savedData = JSON.parse(localStorage.getItem('transactionArray'));
+transactionArray = (transactionArray === null) ? [] : savedData;
+/* `    {
         expense: 'Marriage expense',
         price: 500
     },
     {
         expense: 'Shopping expense',
         price: 2000
-    }
-]
+    }`
+*/
+
+localStorage.setItem('transactionArray', JSON.stringify(transactionArray));
+
 
 
 const addButton = document.querySelector('.js-add-btn');
@@ -17,11 +23,18 @@ const historycontainer = document.querySelector('.js-expense-history-container')
 const incomeExpenseContainer = document.querySelector('.js-income-expense-container')
 const totalBalanceContainer = document.querySelector('.js-balance-container');
 
-textInput.addEventListener('keydown', (event)=>{
-    if (event.key == 'Enter'){
-        console.log('Hello')
+textInput.addEventListener('keydown', (event) => {
+    if (event.key == 'Enter') {
+        priceInput.focus();
     }
 
+})
+
+priceInput.addEventListener('keydown', (event) => {
+    if (event.key == 'Enter') {
+        addButton.click();
+        textInput.focus();
+    }
 })
 
 renderHistoryHtml();
@@ -31,38 +44,41 @@ addButton.addEventListener('click', () => {
     renderHistoryHtml();
     renderexpenseIncomeHtml();
     renderTotalBalance();
+
+    localStorage.setItem('transactionArray', JSON.stringify(transactionArray));
+
 })
+
 
 
 function renderHistoryHtml() {
     let compiledCode = '';
 
-    for (let n = 0; n < expenseArray.length; n++) {
-        const expensePrice = expenseArray[n].price;
-        const expenseText = expenseArray[n].expense;
+    for (let n = 0; n < transactionArray.length; n++) {
+        const expensePrice = transactionArray[n].price;
+        const expenseText = transactionArray[n].expense;
 
         const priceSign = expensePrice < 0 ? '' : '+';
         let code = ``;
-        if (priceSign === ''){
+        if (priceSign === '') {
             code = `
                 <div class="history-box redBorder">
                     <p>${expenseText}</p>
                     <p>${priceSign + expensePrice}</p>
                 </div>
                 `;
-        }else{
-           code = `
+        } else {
+            code = `
             <div class="history-box">
                 <p>${expenseText}</p>
                 <p>${priceSign + expensePrice}</p>
             </div>
-            `; 
+            `;
         }
-        
+
         compiledCode += code;
 
     }
-    console.log(compiledCode);
     historycontainer.innerHTML = compiledCode;
 }
 
@@ -77,7 +93,7 @@ function pushNewTransaction() {
         expense: newExpense,
         price: newPrice
     };
-    expenseArray.push(newobj);
+    transactionArray.push(newobj);
 
 }
 
@@ -90,8 +106,8 @@ renderexpenseIncomeHtml();
 function renderexpenseIncomeHtml() {
     let expenseAmount = 0;
     let incomeAmount = 0;
-    for (let n = 0; n < expenseArray.length; n++) {
-        const currentPrice = expenseArray[n].price;
+    for (let n = 0; n < transactionArray.length; n++) {
+        const currentPrice = transactionArray[n].price;
         if (currentPrice < 0) {
             expenseAmount += currentPrice;
         } else {
@@ -99,7 +115,6 @@ function renderexpenseIncomeHtml() {
         }
     }
 
-    console.log(eval(expenseAmount) * eval(expenseAmount) + eval(expenseAmount))
     const boxCode =
         `<div class="income-container align-center">
             <p>INCOME</p>
@@ -121,8 +136,8 @@ function renderexpenseIncomeHtml() {
 renderTotalBalance();
 function renderTotalBalance() {
     totalBalance = eval(totalIncome) + eval(totalExpense);
-    const balanceCode = 
-    `
+    const balanceCode =
+        `
     <p class="titles"> YOUR BALANCE</p>
     <p class="total-amount">$${totalBalance}</p>
     `
