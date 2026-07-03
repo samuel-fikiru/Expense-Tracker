@@ -17,7 +17,12 @@ const historycontainer = document.querySelector('.js-expense-history-container')
 const incomeExpenseContainer = document.querySelector('.js-income-expense-container')
 const totalBalanceContainer = document.querySelector('.js-balance-container');
 
+textInput.addEventListener('keydown', (event)=>{
+    if (event.key == 'Enter'){
+        console.log('Hello')
+    }
 
+})
 
 renderHistoryHtml();
 
@@ -37,15 +42,27 @@ function renderHistoryHtml() {
         const expenseText = expenseArray[n].expense;
 
         const priceSign = expensePrice < 0 ? '' : '+';
-        const code = `
-        <div class="history-box">
-            <p>${expenseText}</p>
-            <p>${priceSign + expensePrice}</p>
-        </div>
-        `;
+        let code = ``;
+        if (priceSign === ''){
+            code = `
+                <div class="history-box redBorder">
+                    <p>${expenseText}</p>
+                    <p>${priceSign + expensePrice}</p>
+                </div>
+                `;
+        }else{
+           code = `
+            <div class="history-box">
+                <p>${expenseText}</p>
+                <p>${priceSign + expensePrice}</p>
+            </div>
+            `; 
+        }
+        
         compiledCode += code;
 
     }
+    console.log(compiledCode);
     historycontainer.innerHTML = compiledCode;
 }
 
