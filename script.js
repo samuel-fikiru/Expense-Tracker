@@ -91,7 +91,7 @@ function renderexpenseIncomeHtml() {
         <hr class="vertical-hr">
         <div class="expense-container align-center">
             <p>EXPENSE</p>
-            <p class="expense-amount js-expense-amount">$${eval(expenseAmount)}</p>
+            <p class="expense-amount js-expense-amount">$${Math.abs(eval(expenseAmount))}</p>
         </div>`;
     incomeExpenseContainer.innerHTML = boxCode;
 
@@ -100,13 +100,14 @@ function renderexpenseIncomeHtml() {
 
 }
 
-renderTotalBalance();
 
+renderTotalBalance();
 function renderTotalBalance() {
     totalBalance = eval(totalIncome) + eval(totalExpense);
-    const balanceCode = `
+    const balanceCode = 
+    `
     <p class="titles"> YOUR BALANCE</p>
     <p class="total-amount">$${totalBalance}</p>
-`
+    `
     totalBalanceContainer.innerHTML = balanceCode;
 }
