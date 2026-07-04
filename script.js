@@ -1,8 +1,9 @@
 let transactionArray = []
+transactionArray = (transactionArray === null) ? [] : JSON.parse(localStorage.getItem('transactionArray'));
 
-const savedData = JSON.parse(localStorage.getItem('transactionArray'));
-transactionArray = (transactionArray === null) ? [] : savedData;
+
 /* `    {
+
         expense: 'Marriage expense',
         price: 500
     },
@@ -12,9 +13,6 @@ transactionArray = (transactionArray === null) ? [] : savedData;
     }`
 */
 
-localStorage.setItem('transactionArray', JSON.stringify(transactionArray));
-
-
 
 const addButton = document.querySelector('.js-add-btn');
 const textInput = document.querySelector('.js-expense-text');
@@ -22,6 +20,7 @@ const priceInput = document.querySelector('.js-expense-price');
 const historycontainer = document.querySelector('.js-expense-history-container');
 const incomeExpenseContainer = document.querySelector('.js-income-expense-container')
 const totalBalanceContainer = document.querySelector('.js-balance-container');
+const formatButton = document.querySelector('.js-format-btn');
 
 textInput.addEventListener('keydown', (event) => {
     if (event.key == 'Enter') {
@@ -37,9 +36,13 @@ priceInput.addEventListener('keydown', (event) => {
     }
 })
 
-renderHistoryHtml();
+
+
 
 addButton.addEventListener('click', () => {
+    if (transactionArray === null) {
+        transactionArray = [];
+    }
     pushNewTransaction();
     renderHistoryHtml();
     renderexpenseIncomeHtml();
@@ -49,11 +52,21 @@ addButton.addEventListener('click', () => {
 
 })
 
+formatButton.addEventListener('click', () => {
+    localStorage.clear();
+    transactionArray = [];
+    renderHistoryHtml();
+    renderexpenseIncomeHtml();
+    renderTotalBalance();
+    
+})
 
-
+renderHistoryHtml();
 function renderHistoryHtml() {
     let compiledCode = '';
-
+    if (transactionArray === null) {
+        transactionArray = [];
+    }
     for (let n = 0; n < transactionArray.length; n++) {
         const expensePrice = transactionArray[n].price;
         const expenseText = transactionArray[n].expense;
@@ -62,24 +75,27 @@ function renderHistoryHtml() {
         let code = ``;
         if (priceSign === '') {
             code = `
-                <div class="history-box redBorder">
-                    <p>${expenseText}</p>
-                    <p>${priceSign + expensePrice}</p>
-                </div>
-                `;
+                    <div class="history-box redBorder">
+                        <p>${expenseText}</p>
+                        <p>${priceSign + expensePrice}</p>
+                    </div>
+                    `;
         } else {
             code = `
-            <div class="history-box">
-                <p>${expenseText}</p>
-                <p>${priceSign + expensePrice}</p>
-            </div>
-            `;
+                    <div class="history-box">
+                        <p>${expenseText}</p>
+                        <p>${priceSign + expensePrice}</p>
+                    </div>
+                    `;
         }
 
         compiledCode += code;
 
     }
     historycontainer.innerHTML = compiledCode;
+    //  console.log(compiledCode);      
+
+
 }
 
 function pushNewTransaction() {
@@ -106,14 +122,17 @@ renderexpenseIncomeHtml();
 function renderexpenseIncomeHtml() {
     let expenseAmount = 0;
     let incomeAmount = 0;
-    for (let n = 0; n < transactionArray.length; n++) {
-        const currentPrice = transactionArray[n].price;
-        if (currentPrice < 0) {
-            expenseAmount += currentPrice;
-        } else {
-            incomeAmount += '+' + currentPrice;
+    if (transactionArray != null) {
+        for (let n = 0; n < transactionArray.length; n++) {
+            const currentPrice = transactionArray[n].price;
+            if (currentPrice < 0) {
+                expenseAmount += currentPrice;
+            } else {
+                incomeAmount += '+' + currentPrice;
+            }
         }
     }
+
 
     const boxCode =
         `<div class="income-container align-center">
@@ -143,3 +162,5 @@ function renderTotalBalance() {
     `
     totalBalanceContainer.innerHTML = balanceCode;
 }
+
+
