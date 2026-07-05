@@ -25,9 +25,6 @@ priceInput.addEventListener('keydown', (event) => {
 
 
 addButton.addEventListener('click', () => {
-    if (transactionArray === null) {
-        transactionArray = [];
-    }
     pushNewTransaction();
     localStorage.setItem('transactionArray', JSON.stringify(transactionArray));
 })
@@ -107,16 +104,15 @@ renderexpenseIncomeHtml();
 function renderexpenseIncomeHtml() {
     let expenseAmount = 0;
     let incomeAmount = 0;
-    if (transactionArray != null) {
-        for (let n = 0; n < transactionArray.length; n++) {
-            const currentPrice = transactionArray[n].price;
-            if (currentPrice < 0) {
-                expenseAmount += currentPrice;
-            } else {
-                incomeAmount += + currentPrice;
-            }
+    for (let n = 0; n < transactionArray.length; n++) {
+        const currentPrice = transactionArray[n].price;
+        if (currentPrice < 0) {
+            expenseAmount += currentPrice;
+        } else {
+            incomeAmount += + currentPrice;
         }
     }
+
 
     const boxCode =
         `<div class="income-container align-center">
