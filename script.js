@@ -58,7 +58,7 @@ formatButton.addEventListener('click', () => {
     renderHistoryHtml();
     renderexpenseIncomeHtml();
     renderTotalBalance();
-    
+
 })
 
 renderHistoryHtml();
@@ -97,8 +97,8 @@ function renderHistoryHtml() {
 
 
 }
-
 function pushNewTransaction() {
+
     const newExpense = textInput.value;
     const newPrice = priceInput.value;
 
@@ -109,14 +109,22 @@ function pushNewTransaction() {
         expense: newExpense,
         price: newPrice
     };
-    transactionArray.push(newobj);
+    if (!(priceInput.value >= 0 || priceInput.value < 0)) {
+        transactionArray.push(newobj);
+        console.log(priceInput.value >= 0 || priceInput.value < 0);
+    }
+    else {
+        alert('Please Insert Integer Only!');
+        console.log('Not Inserted');
+    };
+
+
 
 }
 
 let totalExpense = 0;
 let totalIncome = 0;
 let totalBalance = 0;
-
 
 renderexpenseIncomeHtml();
 function renderexpenseIncomeHtml() {
@@ -133,7 +141,6 @@ function renderexpenseIncomeHtml() {
         }
     }
 
-
     const boxCode =
         `<div class="income-container align-center">
             <p>INCOME</p>
@@ -148,7 +155,6 @@ function renderexpenseIncomeHtml() {
 
     totalExpense = expenseAmount;
     totalIncome = incomeAmount;
-
 }
 
 
@@ -162,5 +168,3 @@ function renderTotalBalance() {
     `
     totalBalanceContainer.innerHTML = balanceCode;
 }
-
-
