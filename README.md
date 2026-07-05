@@ -62,7 +62,7 @@ Expense-Tracker/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/expense-tracker.git
+git clone https://github.com/samuel-fikiru/Expense-Tracker.git
 ```
 
 ### 2. Open the project
@@ -105,11 +105,6 @@ All transactions are stored in your browser using **Local Storage**, allowing yo
 
 ---
 
-## 📷 Screenshots
-
-![Expense Tracker Screenshot](./expenseTracker.png)
-
----
 
 ## 📝 Known Limitations
 
