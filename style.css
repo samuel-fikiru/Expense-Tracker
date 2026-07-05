@@ -44,9 +44,6 @@ p {
     border-right-width: 0;
 }
 
-.align-center {
-    #background-color: lightgray;
-}
 
 .income-container,
 .expense-container {
@@ -116,7 +113,6 @@ input {
     height: 35px;
 }
 
-.expense-text {}
 
 .add-btn, .format-btn {
     width: 100%;

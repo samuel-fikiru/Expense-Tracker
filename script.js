@@ -25,8 +25,7 @@ priceInput.addEventListener('keydown', (event) => {
 
 
 addButton.addEventListener('click', () => {
-    pushNewTransaction();
-    localStorage.setItem('transactionArray', JSON.stringify(transactionArray));
+    addTransaction();
 })
 
 formatButton.addEventListener('click', () => {
@@ -42,8 +41,11 @@ let totalExpense = 0;
 let totalIncome = 0;
 let totalBalance = 0;
 
+function save() {
+    localStorage.setItem('transactionArray', JSON.stringify(transactionArray));
+}
 
-function pushNewTransaction() {
+function addTransaction() {
 
     const newExpense = textInput.value;
     const newPrice = Number(priceInput.value);
@@ -56,6 +58,7 @@ function pushNewTransaction() {
         transactionArray.push(newobj);
         renderHistoryHtml();
         renderexpenseIncomeHtml();
+        save();
     }
     else {
         alert('Please Insert Number Only!');
