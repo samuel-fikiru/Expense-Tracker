@@ -51,14 +51,11 @@ function pushNewTransaction() {
     const newExpense = textInput.value;
     const newPrice = Number(priceInput.value);
 
-    textInput.value = '';
-    priceInput.value = '';
-
     const newobj = {
         expense: newExpense,
         price: newPrice
     };
-    if (newPrice >= 0 || newPrice < 0) {
+    if (!(textInput.value.trim() === '' || isNaN(newPrice))){
         const recurringBalance = newPrice + totalBalance;
         if (totalBalance <= 0 && newPrice < 0 || recurringBalance < 0) {
             alert("insufficient balance");
@@ -71,6 +68,8 @@ function pushNewTransaction() {
     else {
         alert('Please Insert Number Only!');
     }
+    textInput.value = '';
+    priceInput.value = '';
 }
 
 renderHistoryHtml();
@@ -153,4 +152,6 @@ function renderTotalBalance() {
     `
     totalBalanceContainer.innerHTML = balanceCode;
 }
+
+console.log(isNaN(''))
 
