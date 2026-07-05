@@ -31,8 +31,8 @@ addButton.addEventListener('click', () => {
 formatButton.addEventListener('click', () => {
     localStorage.clear();
     transactionArray = [];
-    renderHistoryHtml();
-    renderexpenseIncomeHtml();
+    renderHistory();
+    calculateTotals();
     alert('Full transactions history are succesfuly formatted. u see changes on page update :)');
 })
 
@@ -46,18 +46,17 @@ function save() {
 }
 
 function addTransaction() {
-
-    const newExpense = textInput.value;
+    const transactionTitle = textInput.value;
     const newPrice = Number(priceInput.value);
 
     const newobj = {
-        expense: newExpense,
+        expense: transactionTitle,
         price: newPrice
     };
     if (!(textInput.value.trim() === '' || isNaN(newPrice))) {
         transactionArray.push(newobj);
-        renderHistoryHtml();
-        renderexpenseIncomeHtml();
+        calculateTotals();
+        render();
         save();
     }
     else {
@@ -67,15 +66,12 @@ function addTransaction() {
     priceInput.value = '';
 }
 
-renderHistoryHtml();
-function renderHistoryHtml() {
+renderHistory();
+function renderHistory() {
     let compiledCode = '';
-    if (transactionArray === null) {
-        transactionArray = [];
-    }
-    for (let n = 0; n < transactionArray.length; n++) {
-        const expensePrice = transactionArray[n].price;
-        const expenseText = transactionArray[n].expense;
+    transactionArray.array.forEach(t => {
+        const expensePrice = t.price;
+        const expenseText = t.expense;
 
         const priceSign = expensePrice < 0 ? '' : '+';
         let code = ``;
@@ -96,15 +92,12 @@ function renderHistoryHtml() {
         }
 
         compiledCode += code;
-
-    }
+    });
     historycontainer.innerHTML = compiledCode;
-
-
 }
 
-renderexpenseIncomeHtml();
-function renderexpenseIncomeHtml() {
+calculateTotals();
+function calculateTotals() {
     let expenseAmount = 0;
     let incomeAmount = 0;
     for (let n = 0; n < transactionArray.length; n++) {
@@ -116,28 +109,29 @@ function renderexpenseIncomeHtml() {
         }
     }
 
+    totalExpense = expenseAmount;
+    totalIncome = incomeAmount;
+    totalBalance = totalExpense + totalIncome;
+    render();
 
+}
+
+function renderTotals() {
     const boxCode =
         `<div class="income-container align-center">
             <p>INCOME</p>
-            <p class="income-amount"> $${incomeAmount}</p>
+            <p class="income-amount"> $${totalIncome}</p>
         </div>
         <hr class="vertical-hr">
         <div class="expense-container align-center">
             <p>EXPENSE</p>
-            <p class="expense-amount js-expense-amount">$${Math.abs(expenseAmount)}</p>
+            <p class="expense-amount js-expense-amount">$${Math.abs(totalExpense)}</p>
         </div>`;
     incomeExpenseContainer.innerHTML = boxCode;
-
-    totalExpense = expenseAmount;
-    totalIncome = incomeAmount;
-    renderTotalBalance();
-
 }
 
-
-renderTotalBalance();
-function renderTotalBalance() {
+renderBalance();
+function renderBalance() {
     totalBalance = eval(totalIncome) + eval(totalExpense);
     const balanceCode =
         `
@@ -147,5 +141,9 @@ function renderTotalBalance() {
     totalBalanceContainer.innerHTML = balanceCode;
 }
 
-console.log(isNaN(''))
+function render() {
+    renderHistory();
+    renderTotals();
+    renderBalance();
+}
 
