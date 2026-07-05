@@ -2,18 +2,6 @@ let transactionArray = []
 transactionArray = (transactionArray === null) ? [] : JSON.parse(localStorage.getItem('transactionArray'));
 
 
-/* `    {
-
-        expense: 'Marriage expense',
-        price: 500
-    },
-    {
-        expense: 'Shopping expense',
-        price: 2000
-    }`
-*/
-
-
 const addButton = document.querySelector('.js-add-btn');
 const textInput = document.querySelector('.js-expense-text');
 const priceInput = document.querySelector('.js-expense-price');
@@ -37,19 +25,12 @@ priceInput.addEventListener('keydown', (event) => {
 })
 
 
-
-
 addButton.addEventListener('click', () => {
     if (transactionArray === null) {
         transactionArray = [];
     }
     pushNewTransaction();
-    renderHistoryHtml();
-    renderexpenseIncomeHtml();
-    renderTotalBalance();
-
     localStorage.setItem('transactionArray', JSON.stringify(transactionArray));
-
 })
 
 formatButton.addEventListener('click', () => {
@@ -57,9 +38,41 @@ formatButton.addEventListener('click', () => {
     transactionArray = [];
     renderHistoryHtml();
     renderexpenseIncomeHtml();
-    renderTotalBalance();
-
+    alert('Full transactions history are succesfuly formatted. u see changes on page update :)');
 })
+
+
+let totalExpense = 0;
+let totalIncome = 0;
+let totalBalance = 0;
+
+
+function pushNewTransaction() {
+
+    const newExpense = textInput.value;
+    const newPrice = Number(priceInput.value);
+
+    textInput.value = '';
+    priceInput.value = '';
+
+    const newobj = {
+        expense: newExpense,
+        price: newPrice
+    };
+    if (newPrice >= 0 || newPrice < 0) {
+        const recurringBalance = newPrice + totalBalance;
+        if (totalBalance <= 0 && newPrice < 0 || recurringBalance < 0) {
+            alert("insufficient balance");
+        } else {
+            transactionArray.push(newobj);
+            renderHistoryHtml();
+            renderexpenseIncomeHtml();
+        }
+    }
+    else {
+        alert('Please Insert Number Only!');
+    }
+}
 
 renderHistoryHtml();
 function renderHistoryHtml() {
@@ -93,38 +106,9 @@ function renderHistoryHtml() {
 
     }
     historycontainer.innerHTML = compiledCode;
-    //  console.log(compiledCode);      
 
 
 }
-function pushNewTransaction() {
-
-    const newExpense = textInput.value;
-    const newPrice = priceInput.value;
-
-    textInput.value = '';
-    priceInput.value = '';
-
-    const newobj = {
-        expense: newExpense,
-        price: newPrice
-    };
-    if (!(priceInput.value >= 0 || priceInput.value < 0)) {
-        transactionArray.push(newobj);
-        console.log(priceInput.value >= 0 || priceInput.value < 0);
-    }
-    else {
-        alert('Please Insert Integer Only!');
-        console.log('Not Inserted');
-    };
-
-
-
-}
-
-let totalExpense = 0;
-let totalIncome = 0;
-let totalBalance = 0;
 
 renderexpenseIncomeHtml();
 function renderexpenseIncomeHtml() {
@@ -155,6 +139,8 @@ function renderexpenseIncomeHtml() {
 
     totalExpense = expenseAmount;
     totalIncome = incomeAmount;
+    renderTotalBalance();
+
 }
 
 
@@ -168,3 +154,4 @@ function renderTotalBalance() {
     `
     totalBalanceContainer.innerHTML = balanceCode;
 }
+
