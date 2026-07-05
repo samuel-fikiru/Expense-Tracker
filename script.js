@@ -119,7 +119,7 @@ function renderexpenseIncomeHtml() {
             if (currentPrice < 0) {
                 expenseAmount += currentPrice;
             } else {
-                incomeAmount += '+' + currentPrice;
+                incomeAmount += + currentPrice;
             }
         }
     }
@@ -127,12 +127,12 @@ function renderexpenseIncomeHtml() {
     const boxCode =
         `<div class="income-container align-center">
             <p>INCOME</p>
-            <p class="income-amount"> $${eval(incomeAmount)}</p>
+            <p class="income-amount"> $${incomeAmount}</p>
         </div>
         <hr class="vertical-hr">
         <div class="expense-container align-center">
             <p>EXPENSE</p>
-            <p class="expense-amount js-expense-amount">$${Math.abs(eval(expenseAmount))}</p>
+            <p class="expense-amount js-expense-amount">$${Math.abs(expenseAmount)}</p>
         </div>`;
     incomeExpenseContainer.innerHTML = boxCode;
 
