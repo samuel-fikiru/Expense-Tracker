@@ -1,5 +1,4 @@
-let transactionArray = []
-transactionArray = JSON.parse(localStorage.getItem('transactionArray')) || [];
+let transactionArray = JSON.parse(localStorage.getItem('transactionArray')) || [];
 
 
 const addButton = document.querySelector('.js-add-btn');
